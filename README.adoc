@@ -304,7 +304,7 @@ oc logs build/system-buildconfig-1
 ```
 
 During the build process, the image associated with the `ImageStream` object that you created earlier
-was pushed from the image registry and tagged. Run the following command to view the newly updated `ImageStream` object:
+was pushed to the image registry and tagged. Run the following command to view the newly updated `ImageStream` object:
 
 [role='command']
 ```
