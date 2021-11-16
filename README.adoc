@@ -303,8 +303,8 @@ command to view the build log until the `Push successful` message appears:
 oc logs build/system-buildconfig-1
 ```
 
-During the build process, the `ImageStream` object that you created earlier based on an image from the image registry
-was referenced and tagged. Run the following command to view the newly tagged `ImageStream` object:
+During the build process, the image associated with the `ImageStream` object that you created earlier
+was pushed from the image registry and tagged. Run the following command to view the newly updated `ImageStream` object:
 
 [role='command']
 ```
