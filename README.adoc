@@ -131,7 +131,7 @@ endif::[]
 
 // Cloud hosted guide instruction
 ifdef::cloud-hosted[]
-A project is created for you to use in this execise. Run the following command to see your project name:
+A project is created for you to use in this exercise. Run the following command to see your project name:
 
 ```
 oc projects
