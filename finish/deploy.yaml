@@ -9,7 +9,30 @@ metadata:
     name: system
 spec:
   # tag::sysImage[]
-  applicationImage: guide/system-imagestream:1.0-SNAPSHOT
+  applicationImage: guide/system:1.0-SNAPSHOT
+  startupProbe:
+    httpGet:
+      path: /health/started
+      port: 9080
+      scheme: HTTPS
+  readinessProbe:
+    failureThreshold: 12
+    httpGet:
+      path: /health/ready
+      port: 9080
+      scheme: HTTPS
+    initialDelaySeconds: 30
+    periodSeconds: 2
+    timeoutSeconds: 10
+  livenessProbe:
+    failureThreshold: 12
+    httpGet:
+      path: /health/live
+      port: 9080
+      scheme: HTTPS
+    initialDelaySeconds: 30
+    periodSeconds: 2
+    timeoutSeconds: 10
   # end::sysImage[]
   service:
     # tag::servicePort[]
