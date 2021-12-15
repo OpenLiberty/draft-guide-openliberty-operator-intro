@@ -9,7 +9,7 @@ metadata:
     name: system
 spec:
   # tag::sysImage[]
-  applicationImage: guide/system-imagestream:1.0-SNAPSHOT
+  applicationImage: system:1.0-SNAPSHOT
   # end::sysImage[]
   service:
     # tag::servicePort[]
