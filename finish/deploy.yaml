@@ -8,6 +8,11 @@ metadata:
   labels:
     name: system
 spec:
+  strategy:
+  type: RollingUpdate
+  rollingUpdate:
+    maxSurge: 1
+    maxUnavailable: 25%
   # tag::sysImage[]
   applicationImage: system:1.0-SNAPSHOT
   # end::sysImage[]
@@ -26,4 +31,22 @@ spec:
     - name: WLP_LOGGING_MESSAGE_SOURCE
       value: "message,trace,accessLog,ffdc,audit"
   # end::systemEnv[]
+  readinessProbe:
+    failureThreshold: 12
+    httpGet:
+      path: /health/ready
+      port: 9443
+      scheme: HTTPS
+    initialDelaySeconds: 30
+    periodSeconds: 2
+    timeoutSeconds: 10
+  livenessProbe:
+    failureThreshold: 12
+    httpGet:
+      path: /health/live
+      port: 9443
+      scheme: HTTPS
+    initialDelaySeconds: 30
+    periodSeconds: 2
+    timeoutSeconds: 10
 # end::system[]
