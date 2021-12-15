@@ -27,6 +27,8 @@ NOTE: This repository contains the guide documentation source. To view the guide
 
 Explore how to deploy a microservice to Kubernetes by using a Kubernetes Operator.
 
+:kube: Kubernetes
+
 == What you'll learn
 
 You will learn how to deploy a cloud-native application with a microservice to Kubernetes by using the Open Liberty Kubernetes Operator. 
@@ -54,10 +56,9 @@ of application deployment, and reconciles them when necessary.
 
 // Static guide instruction
 ifndef::cloud-hosted[]
-== Additional prerequisites
-
 [role='command']
 include::{common-includes}/kube-prereq.adoc[]
+endif::[]
 
 // =================================================================================================
 // Getting Started
