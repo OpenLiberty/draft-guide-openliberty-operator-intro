@@ -112,12 +112,6 @@ curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main
   | sed -e "s/OPEN_LIBERTY_WATCH_NAMESPACE/${WATCH_NAMESPACE}/" \
   | kubectl apply -n ${OPERATOR_NAMESPACE} -f -
 ```
-
-To check that the Open Liberty Operator has been installed successfully, run the following command:
-[role='command']
-```
-kubectl api-resources --api-group=openliberty.io
-```
 endif::[]
 
 // Cloud hosted guide instruction
@@ -130,8 +124,7 @@ endif::[]
 [role='command']
 include::{common-includes}/skills-network-kube-setup.adoc[]
 
-Run the following command to view all the supported API resources that are available through the Open Liberty Operator:
-
+To check that the Open Liberty Operator has been installed successfully, run the following command to view all the supported API resources that are available through the Open Liberty Operator:
 [role='command']
 ```
 kubectl api-resources --api-group=openliberty.io
@@ -291,7 +284,7 @@ This example shows part of the `olapps/system` output:
 [role='no_copy']
 ```
 Name:         system
-Namespace:    guide
+Namespace:    default
 Labels:       app.kubernetes.io/part-of=system
               name=system
 Annotations:  <none>
@@ -313,8 +306,7 @@ kubectl port-forward svc/system 9080
 
 // Static guide instruction
 ifndef::cloud-hosted[]
-Visit the microservice by going to the following URL: 
-`http://localhost:9080/system/properties`
+Visit the microservice at http://localhost:9080/system/properties.
 endif::[]
 
 // Cloud-hosted guide instruction
