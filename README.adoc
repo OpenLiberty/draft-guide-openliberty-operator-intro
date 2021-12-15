@@ -227,7 +227,7 @@ ifndef::cloud-hosted[]
 This parameter follows the `<image-name>[:tag]` format. The parameter can also point to an image hosted on an external registry, such as Docker Hub. 
 endif::[]
 ifdef::cloud-hosted[]
-This parameter follows the **<image-name>[:tag]** format. The parameter can also point to an image hosted on an external registry, such as Docker Hub. 
+This parameter follows the **<image-name>****[:tag]** format. The parameter can also point to an image hosted on an external registry, such as Docker Hub. 
 endif::[]
 The [hotspot=system file=0]`system` microservice is configured to use the [hotspot=sysImage file=0]`image` created from the earlier build. 
 
