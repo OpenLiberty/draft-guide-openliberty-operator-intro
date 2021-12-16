@@ -8,11 +8,6 @@ metadata:
   labels:
     name: system
 spec:
-  strategy:
-  type: RollingUpdate
-  rollingUpdate:
-    maxSurge: 1
-    maxUnavailable: 25%
   # tag::sysImage[]
   applicationImage: system:1.0-SNAPSHOT
   # end::sysImage[]
