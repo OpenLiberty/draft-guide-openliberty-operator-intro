@@ -11,6 +11,7 @@ spec:
   # tag::sysImage[]
   applicationImage: system:1.0-SNAPSHOT
   # end::sysImage[]
+  # tag::service[]
   service:
     # tag::servicePort[]
     port: 9080
