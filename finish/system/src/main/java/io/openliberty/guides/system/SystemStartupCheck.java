@@ -1,6 +1,6 @@
 // tag::copyright[]
 /*******************************************************************************
- * Copyright (c) 2019, 2021 IBM Corporation and others.
+ * Copyright (c) 2021 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -13,27 +13,25 @@
 package io.openliberty.guides.system;
 
 import java.lang.management.ManagementFactory;
-import java.lang.management.MemoryMXBean;
-
+import com.sun.management.OperatingSystemMXBean;
 import javax.enterprise.context.ApplicationScoped;
-import org.eclipse.microprofile.health.Liveness;
+import org.eclipse.microprofile.health.Startup;
 import org.eclipse.microprofile.health.HealthCheck;
 import org.eclipse.microprofile.health.HealthCheckResponse;
 
-@Liveness
+@Startup
 @ApplicationScoped
-public class SystemLivenessCheck implements HealthCheck {
+public class SystemStartupCheck implements HealthCheck {
 
     @Override
     public HealthCheckResponse call() {
-        MemoryMXBean memBean = ManagementFactory.getMemoryMXBean();
-        long memUsed = memBean.getHeapMemoryUsage().getUsed();
-        long memMax = memBean.getHeapMemoryUsage().getMax();
-
+        OperatingSystemMXBean bean = (com.sun.management.OperatingSystemMXBean)
+        ManagementFactory.getOperatingSystemMXBean();
+        double cpuUsed = bean.getSystemCpuLoad();
+        String cpuUsage = String.valueOf(cpuUsed);
         return HealthCheckResponse.named(SystemResource.class
-                                            .getSimpleName() + " Liveness Check")
-                                            .withData("memory used", memUsed)
-                                            .withData("memory max", memMax)
-                                            .status(memUsed < memMax * 0.9).build();
+                                            .getSimpleName() + " Startup Check")
+                                            .withData("cpu used", cpuUsage)
+                                            .status(cpuUsed < 0.95).build();
     }
 }

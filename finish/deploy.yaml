@@ -26,12 +26,17 @@ spec:
     - name: WLP_LOGGING_MESSAGE_SOURCE
       value: "message,trace,accessLog,ffdc,audit"
   # end::systemEnv[]
+  startupProbe:
+    httpGet:
+      path: /health/started
+      port: 9080
+      scheme: HTTP
   readinessProbe:
     failureThreshold: 12
     httpGet:
       path: /health/ready
-      port: 9443
-      scheme: HTTPS
+      port: 9080
+      scheme: HTTP
     initialDelaySeconds: 30
     periodSeconds: 2
     timeoutSeconds: 10
@@ -39,8 +44,8 @@ spec:
     failureThreshold: 12
     httpGet:
       path: /health/live
-      port: 9443
-      scheme: HTTPS
+      port: 9080
+      scheme: HTTP
     initialDelaySeconds: 30
     periodSeconds: 2
     timeoutSeconds: 10

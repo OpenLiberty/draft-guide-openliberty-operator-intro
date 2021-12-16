@@ -12,28 +12,36 @@
 // end::copyright[]
 package io.openliberty.guides.system;
 
-import java.lang.management.ManagementFactory;
-import java.lang.management.MemoryMXBean;
+import java.time.LocalDateTime;
 
 import javax.enterprise.context.ApplicationScoped;
-import org.eclipse.microprofile.health.Liveness;
+import org.eclipse.microprofile.health.Readiness;
 import org.eclipse.microprofile.health.HealthCheck;
 import org.eclipse.microprofile.health.HealthCheckResponse;
 
-@Liveness
+@Readiness
 @ApplicationScoped
-public class SystemLivenessCheck implements HealthCheck {
+public class SystemReadinessCheck implements HealthCheck {
+
+    private static final int ALIVE_DELAY_SECONDS = 60;
+    private static final String READINESS_CHECK = SystemResource.class.getSimpleName()
+                                                 + " Readiness Check";
+    private static LocalDateTime aliveAfter = LocalDateTime.now();
 
     @Override
     public HealthCheckResponse call() {
-        MemoryMXBean memBean = ManagementFactory.getMemoryMXBean();
-        long memUsed = memBean.getHeapMemoryUsage().getUsed();
-        long memMax = memBean.getHeapMemoryUsage().getMax();
+        if (isAlive()) {
+            return HealthCheckResponse.up(READINESS_CHECK);
+        }
 
-        return HealthCheckResponse.named(SystemResource.class
-                                            .getSimpleName() + " Liveness Check")
-                                            .withData("memory used", memUsed)
-                                            .withData("memory max", memMax)
-                                            .status(memUsed < memMax * 0.9).build();
+        return HealthCheckResponse.down(READINESS_CHECK);
+    }
+
+    public static void setUnhealthy() {
+        aliveAfter = LocalDateTime.now().plusSeconds(ALIVE_DELAY_SECONDS);
+    }
+
+    private static boolean isAlive() {
+        return LocalDateTime.now().isAfter(aliveAfter);
     }
 }
