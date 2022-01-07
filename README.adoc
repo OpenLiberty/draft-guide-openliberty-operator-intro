@@ -1,4 +1,4 @@
-// Copyright (c) 2021 IBM Corporation and others.
+// Copyright (c) 2022 IBM Corporation and others.
 // Licensed under Creative Commons Attribution-NoDerivatives
 // 4.0 International (CC BY-ND 4.0)
 //   https://creativecommons.org/licenses/by-nd/4.0/
@@ -9,7 +9,7 @@
 :projectid: openliberty-operator-intro
 :page-layout: guide-multipane
 :page-duration: 30 minutes
-:page-releasedate: 2021-11-22
+:page-releasedate: 2022-01-31
 :page-description: Explore how to deploy a microservice to Kubernetes by using the Open Liberty Kubernetes Operator.
 :page-tags: ['Kubernetes', 'Docker', 'Cloud'] 
 :page-permalink: /guides/{projectid}
@@ -20,7 +20,7 @@
 :page-seo-title: Deploying a microservice to Kubernetes by using a Kubernetes Operator
 :page-seo-description: A getting started tutorial with examples on how to deploy a cloud-native Java application and a microservice to a Kubernetes cluster by using a Kubernetes Operator like the Open Liberty Operator.
 :guide-author: Open Liberty
-= Deploying a microservice to Kubernetes by using a Kubernetes Operator
+= Deploying a microservice to Kubernetes by using Kubernetes Operator
 
 [.hidden]
 NOTE: This repository contains the guide documentation source. To view the guide in published form, view it on the https://openliberty.io/guides/{projectid}.html[Open Liberty website^].
@@ -45,7 +45,7 @@ To learn more about operators, check out this https://www.openshift.com/learn/to
 The application in this guide consists of one microservice, `system`. Every 15 seconds, the `system`
 microservice calculates and publishes events that contain its current average system load.
 
-You will deploy the Open Liberty microservice by using the Open Liberty Operator. 
+You will deploy the `system` microservice by using the Open Liberty Operator. 
 The https://github.com/OpenLiberty/open-liberty-operator[Open Liberty Operator^] provides a method of packaging,
 deploying, and managing Open Liberty applications on Kubernetes-based clusters. 
 The Open Liberty Operator watches Open Liberty resources and creates various Kubernetes resources,
