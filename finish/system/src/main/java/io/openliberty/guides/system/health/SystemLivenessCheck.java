@@ -1,6 +1,6 @@
 // tag::copyright[]
 /*******************************************************************************
- * Copyright (c) 2021 IBM Corporation and others.
+ * Copyright (c) 2019, 2021 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -10,28 +10,30 @@
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
 // end::copyright[]
-package io.openliberty.guides.system;
+package io.openliberty.guides.system.health;
 
 import java.lang.management.ManagementFactory;
-import com.sun.management.OperatingSystemMXBean;
+import java.lang.management.MemoryMXBean;
+
 import javax.enterprise.context.ApplicationScoped;
-import org.eclipse.microprofile.health.Startup;
+import org.eclipse.microprofile.health.Liveness;
 import org.eclipse.microprofile.health.HealthCheck;
 import org.eclipse.microprofile.health.HealthCheckResponse;
 
-@Startup
+@Liveness
 @ApplicationScoped
-public class SystemStartupCheck implements HealthCheck {
+public class SystemLivenessCheck implements HealthCheck {
 
     @Override
     public HealthCheckResponse call() {
-        OperatingSystemMXBean bean = (com.sun.management.OperatingSystemMXBean)
-        ManagementFactory.getOperatingSystemMXBean();
-        double cpuUsed = bean.getSystemCpuLoad();
-        String cpuUsage = String.valueOf(cpuUsed);
+        MemoryMXBean memBean = ManagementFactory.getMemoryMXBean();
+        long memUsed = memBean.getHeapMemoryUsage().getUsed();
+        long memMax = memBean.getHeapMemoryUsage().getMax();
+
         return HealthCheckResponse.named(SystemResource.class
-                                            .getSimpleName() + " Startup Check")
-                                            .withData("cpu used", cpuUsage)
-                                            .status(cpuUsed < 0.95).build();
+                                            .getSimpleName() + " Liveness Check")
+                                            .withData("memory used", memUsed)
+                                            .withData("memory max", memMax)
+                                            .status(memUsed < memMax * 0.9).build();
     }
 }

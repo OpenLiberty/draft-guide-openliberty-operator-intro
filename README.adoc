@@ -42,8 +42,7 @@ https://kubernetes.io/docs/concepts/extend-kubernetes/operator/#operators-in-kub
 provide an easy way to automate the management and updating of applications by abstracting away some of the details of cloud application management.
 To learn more about operators, check out this https://www.openshift.com/learn/topics/operators[Operators tech topic article^]. 
 
-The application in this guide consists of one microservice, `system`. Every 15 seconds, the `system`
-microservice calculates and publishes events that contain its current average system load.
+The application in this guide consists of one microservice, `system`. The system microservice returns the JVM system properties of its host.
 
 You will deploy the `system` microservice by using the Open Liberty Operator. 
 The https://github.com/OpenLiberty/open-liberty-operator[Open Liberty Operator^] provides a method of packaging,
@@ -81,7 +80,7 @@ endif::[]
 
 // Static guide instruction
 ifndef::cloud-hosted[]
-Before you can deploy your microservice, you must install the Open Liberty Operator.
+Before you can deploy your microservice, you must install the Open Liberty Operator. You should read the official installation document on the link:https://github.com/OpenLiberty/open-liberty-operator/blob/main/deploy/releases/0.7.1/readme.adoc[GitHub repository].
 
 First, install Custom Resource Definitions (CRDs) for the Open Liberty Operator by running the following command:
 [role='command']
@@ -206,7 +205,7 @@ Now you're ready to deploy the image.
 === Deploying the image
 //File 0
 deploy.yaml
-[source, yaml, linenums, role='code_column hide_tags=replicas']
+[source, yaml, linenums, role='code_column hide_tags=healthProbes']
 ----
 include::finish/deploy.yaml[]
 ----
@@ -229,7 +228,7 @@ endif::[]
 ifdef::cloud-hosted[]
 This parameter follows the **[image-name][:tag]** format. The parameter can also point to an image hosted on an external registry, such as Docker Hub. 
 endif::[]
-The [hotspot=system file=0]`system` microservice is configured to use the [hotspot=sysImage file=0]`image` created from the earlier build. 
+The `system` microservice is configured to use the [hotspot=sysImage file=0]`image` created from the earlier build. 
 
 The [hotspot=systemEnv file=0]`env` parameter is used to specify environment variables that are passed to the container at runtime.
 
@@ -317,6 +316,61 @@ endif::[]
 // Cloud-hosted guide instruction
 ifdef::cloud-hosted[]
 Open another command-line session by selecting **Terminal** > **New Terminal** from the menu of the IDE.
+Access the microservice by running the following command:
+```
+curl -s http://localhost:9080/system/properties | jq
+```
+{: codeblock}
+endif::[]
+
+== Specifying other parameters
+
+You can visit the link:https://github.com/OpenLiberty/open-liberty-operator/blob/main/doc/user-guide.adoc#configuration[Open Liberty Operator user guide] to find all of the supported optional parameters.
+
+//File 0
+deploy.yaml
+[source, yaml, linenums, role='code_column']
+----
+include::finish/deploy.yaml[]
+----
+
+You can now configure the readiness and liveness probes. The readiness probe is used to know when a container is ready to begin accepting traffic, and the liveness probe is used to know when to restart a container.
+
+[role="code_command hotspot file=0", subs="quotes"]
+----
+#Update the `deploy.yaml` configuration file in the `start` directory.#
+`deploy.yaml`
+----
+
+The health check endpoints `/health/ready` and `/health/live` have already been created for you. 
+
+// Static guide instruction
+ifndef::cloud-hosted[]
+Run the following command to deploy the `system` microservice with the new configuration:
+
+[role='command']
+```
+kubectl apply -f deploy.yaml
+```
+endif::[]
+
+// Cloud-hosted guide instruction
+ifdef::cloud-hosted[]
+Run the following commands to update the **applicationImage** and deploy the **system** microservice with the new configuration:
+```
+sed -i 's=system:1.0-SNAPSHOT=us.icr.io/'"$NAMESPACE_NAME"'/system:1.0-SNAPSHOT\n  imagePullPolicy: Always=g' deploy.yaml
+kubectl apply -f deploy.yaml
+```
+{: codeblock}
+endif::[]
+
+// Static guide instruction
+ifndef::cloud-hosted[]
+Visit the microservice at http://localhost:9080/system/properties.
+endif::[]
+
+// Cloud-hosted guide instruction
+ifdef::cloud-hosted[]
 Access the microservice by running the following command:
 ```
 curl -s http://localhost:9080/system/properties | jq
