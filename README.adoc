@@ -334,7 +334,7 @@ deploy.yaml
 include::finish/deploy.yaml[]
 ----
 
-You can now configure the readiness and liveness probes. The readiness probe is used to know when a container is ready to begin accepting traffic, and the liveness probe is used to know when to restart a container.
+You can now configure the readiness and liveness probes. The [hotspot=readinessProbe file=0]`readiness probe` is used to know when a container is ready to begin accepting traffic, and the [hotspot=livenessProbe file=0]`liveness probe` is used to know when to restart a container.
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----

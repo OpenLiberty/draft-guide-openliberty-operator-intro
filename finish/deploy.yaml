@@ -28,6 +28,7 @@ spec:
       value: "message,trace,accessLog,ffdc,audit"
   # end::systemEnv[]
   # tag::healthProbes[]
+  # tag::readinessProbe[]
   readinessProbe:
     failureThreshold: 12
     httpGet:
@@ -37,6 +38,8 @@ spec:
     initialDelaySeconds: 30
     periodSeconds: 2
     timeoutSeconds: 10
+  # end::readinessProbe[]
+  # tag::livenessProbe[]
   livenessProbe:
     failureThreshold: 12
     httpGet:
@@ -46,5 +49,6 @@ spec:
     initialDelaySeconds: 30
     periodSeconds: 2
     timeoutSeconds: 10
+  # end::livenessProbe[]
   # tag::healthProbes[]
 # end::system[]
