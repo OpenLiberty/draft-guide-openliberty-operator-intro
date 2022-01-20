@@ -338,7 +338,7 @@ You can now configure the readiness and liveness probes. The readiness probe is 
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
-#Update the `deploy.yaml` configuration file in the `start` directory.#
+#Replace the `deploy.yaml` configuration file.#
 `deploy.yaml`
 ----
 
