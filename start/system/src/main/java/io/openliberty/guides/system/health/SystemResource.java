@@ -10,7 +10,7 @@
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
  // end::copyright[]
-package io.openliberty.guides.system;
+package io.openliberty.guides.system.health;
 
 // CDI
 import javax.enterprise.context.RequestScoped;
