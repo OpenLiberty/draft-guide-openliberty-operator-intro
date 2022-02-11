@@ -198,14 +198,7 @@ You can configure the specifics of the Open Liberty Operator-controlled deployme
 
 The [hotspot file=0]`deploy.yaml` file is configured to deploy one [hotspot=olapp file=0]`OpenLibertyApplication` resource, [hotspot=system file=0]`system`, which is controlled by the Open Liberty Operator.
 
-The [hotspot=sysImage file=0]`applicationImage` parameter defines what container image is deployed as part of the `OpenLibertyApplication` CRD. 
-ifndef::cloud-hosted[]
-This parameter follows the `<image-name>[:tag]` format. The parameter can also point to an image hosted on an external registry, such as Docker Hub. 
-endif::[]
-ifdef::cloud-hosted[]
-This parameter follows the **[image-name][:tag]** format. The parameter can also point to an image hosted on an external registry, such as Docker Hub. 
-endif::[]
-The `system` microservice is configured to use the [hotspot=sysImage file=0]`image` created from the earlier build. 
+The [hotspot=sysImage file=0]`applicationImage` parameter defines what container image is deployed as part of the `OpenLibertyApplication` CRD. This parameter follows the `<image-name>[:tag]` format. The parameter can also point to an image hosted on an external registry, such as Docker Hub. The `system` microservice is configured to use the [hotspot=sysImage file=0]`image` created from the earlier build. 
 
 The [hotspot=systemEnv file=0]`env` parameter is used to specify environment variables that are passed to the container at runtime.
 
@@ -295,7 +288,7 @@ endif::[]
 
 == Specifying other parameters
 
-You can visit the link:https://github.com/OpenLiberty/open-liberty-operator/blob/main/doc/user-guide.adoc#configuration[Open Liberty Operator user guide] to find all of the supported optional parameters.
+You can visit the https://github.com/OpenLiberty/open-liberty-operator/blob/main/doc/user-guide.adoc#configuration[Open Liberty Operator user guide^] to find all of the supported optional parameters.
 
 //File 0
 deploy.yaml
