@@ -108,7 +108,7 @@ In this Skills Network environment, the Open Liberty Operator is already install
 endif::[]
 
 [role='command']
-include::{common-includes}/skills-network-kube-setup.adoc[]
+include::{common-includes}/cloud-hosted/skills-network-kube-setup.adoc[]
 
 To check that the Open Liberty Operator has been installed successfully, run the following command to view all the supported API resources that are available through the Open Liberty Operator:
 [role='command']
