@@ -305,7 +305,7 @@ You can now configure the startup, readiness, and liveness probes. The [hotspot=
 `deploy.yaml`
 ----
 
-The health check endpoints `/health/ready` and `/health/live` have already been created for you. 
+The health check endpoints `/health/started`, `/health/live` and `/health/ready` have already been created for you. 
 
 // Static guide instruction
 ifndef::cloud-hosted[]
