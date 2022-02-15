@@ -10,7 +10,6 @@
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
 // end::copyright[]
-// tag::SystemStartupCheck[]
 package io.openliberty.guides.system;
 
 import java.lang.management.ManagementFactory;
@@ -20,9 +19,7 @@ import org.eclipse.microprofile.health.Startup;
 import org.eclipse.microprofile.health.HealthCheck;
 import org.eclipse.microprofile.health.HealthCheckResponse;
 
-// tag::Startup[]
 @Startup
-// end::Startup[]
 @ApplicationScoped
 public class SystemStartupCheck implements HealthCheck {
 
@@ -38,5 +35,3 @@ public class SystemStartupCheck implements HealthCheck {
                                             .status(cpuUsed < 0.95).build();
     }
 }
-
-// end::SystemStartupCheck[]
