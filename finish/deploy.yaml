@@ -1,5 +1,5 @@
 # tag::system[]
-apiVersion: openliberty.io/v1beta1
+apiVersion: apps.openliberty.io/v1beta2
 # tag::olapp[]
 kind: OpenLibertyApplication
 # end::olapp[]
@@ -28,17 +28,17 @@ spec:
       value: "message,trace,accessLog,ffdc,audit"
   # end::systemEnv[]
   # tag::healthProbes[]
-  # tag::readinessProbe[]
-  readinessProbe:
+  # tag::startupProbe[]
+  startupProbe:
     failureThreshold: 12
     httpGet:
-      path: /health/ready
+      path: /health/started
       port: 9080
       scheme: HTTP
     initialDelaySeconds: 30
     periodSeconds: 2
     timeoutSeconds: 10
-  # end::readinessProbe[]
+  # end::startupProbe[]
   # tag::livenessProbe[]
   livenessProbe:
     failureThreshold: 12
@@ -50,5 +50,16 @@ spec:
     periodSeconds: 2
     timeoutSeconds: 10
   # end::livenessProbe[]
+  # tag::readinessProbe[]
+  readinessProbe:
+    failureThreshold: 12
+    httpGet:
+      path: /health/ready
+      port: 9080
+      scheme: HTTP
+    initialDelaySeconds: 30
+    periodSeconds: 2
+    timeoutSeconds: 10
+  # end::readinessProbe[]
   # tag::healthProbes[]
 # end::system[]
