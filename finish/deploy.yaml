@@ -61,5 +61,5 @@ spec:
     periodSeconds: 2
     timeoutSeconds: 10
   # end::readinessProbe[]
-  # tag::healthProbes[]
+  # end::healthProbes[]
 # end::system[]
