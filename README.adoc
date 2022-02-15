@@ -286,6 +286,8 @@ curl -s http://localhost:9080/system/properties | jq
 {: codeblock}
 endif::[]
 
+Press **CTRL+C** in the command line session where you ran the `kubectl port-forward` command to stop the port forwarding.
+
 == Specifying other parameters
 
 You can visit the https://github.com/OpenLiberty/open-liberty-operator/blob/main/doc/user-guide-v1beta2.adoc#configuration[Open Liberty Operator user guide^] to find all of the supported optional parameters.
@@ -325,6 +327,13 @@ kubectl apply -f deploy.yaml
 ```
 {: codeblock}
 endif::[]
+
+Run the following command to set up port forwarding to access the `system` service:
+
+[role='command']
+```
+kubectl port-forward svc/system 9080
+```
 
 // Static guide instruction
 ifndef::cloud-hosted[]
