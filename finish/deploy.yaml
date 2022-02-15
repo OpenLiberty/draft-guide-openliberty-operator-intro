@@ -1,5 +1,5 @@
 # tag::system[]
-apiVersion: openliberty.io/v1beta1
+apiVersion: apps.openliberty.io/v1beta2
 # tag::olapp[]
 kind: OpenLibertyApplication
 # end::olapp[]
