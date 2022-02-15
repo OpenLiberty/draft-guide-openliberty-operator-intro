@@ -181,12 +181,6 @@ endif::[]
 Now you're ready to deploy the image.
 
 === Deploying the image
-//File 0
-deploy.yaml
-[source, yaml, linenums, role='code_column hide_tags=healthProbes']
-----
-include::finish/deploy.yaml[]
-----
 
 You can configure the specifics of the Open Liberty Operator-controlled deployment with a YAML configuration file.
 
@@ -194,6 +188,12 @@ You can configure the specifics of the Open Liberty Operator-controlled deployme
 ----
 #Create the `deploy.yaml` configuration file in the `start` directory.#
 `deploy.yaml`
+----
+
+deploy.yaml
+[source, yaml, linenums, role='code_column hide_tags=healthProbes']
+----
+include::finish/deploy.yaml[]
 ----
 
 The [hotspot file=0]`deploy.yaml` file is configured to deploy one [hotspot=olapp file=0]`OpenLibertyApplication` resource, [hotspot=system file=0]`system`, which is controlled by the Open Liberty Operator.
@@ -290,19 +290,18 @@ endif::[]
 
 You can visit the https://github.com/OpenLiberty/open-liberty-operator/blob/main/doc/user-guide-v1beta2.adoc#configuration[Open Liberty Operator user guide^] to find all of the supported optional parameters.
 
-//File 0
-deploy.yaml
-[source, yaml, linenums, role='code_column']
-----
-include::finish/deploy.yaml[]
-----
-
 You can now configure the startup, readiness, and liveness probes. The [hotspot=startupProbe file=0]`startup probe` is used to verify whether deployed application is fully initialized before the liveness probe takes over, the [hotspot=livenessProbe file=0]`liveness probe` is used to determine whether the application is running, and the [hotspot=readinessProbe file=0]`readiness probe` is used to know whether the application is ready to process requests.
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
 #Replace the `deploy.yaml` configuration file.#
 `deploy.yaml`
+----
+
+deploy.yaml
+[source, yaml, linenums, role='code_column']
+----
+include::finish/deploy.yaml[]
 ----
 
 The health check endpoints `/health/started`, `/health/live` and `/health/ready` have already been created for you. 
