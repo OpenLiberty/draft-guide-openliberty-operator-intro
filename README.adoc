@@ -286,7 +286,7 @@ curl -s http://localhost:9080/system/properties | jq
 {: codeblock}
 endif::[]
 
-Press **CTRL+C** in the command line session where you ran the `kubectl port-forward` command to stop the port forwarding.
+When you're done trying out the microservice, press **CTRL+C** in the command line session where you ran the `kubectl port-forward` command to stop the port forwarding.
 
 == Specifying other parameters
 
