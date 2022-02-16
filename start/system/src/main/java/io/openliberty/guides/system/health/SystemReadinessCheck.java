@@ -24,8 +24,7 @@ import org.eclipse.microprofile.health.HealthCheckResponse;
 public class SystemReadinessCheck implements HealthCheck {
 
     private static final int ALIVE_DELAY_SECONDS = 60;
-    private static final String READINESS_CHECK = SystemResource.class.getSimpleName()
-                                                 + " Readiness Check";
+    private static final String READINESS_CHECK = "SystemReadinessCheck";
     private static LocalDateTime aliveAfter = LocalDateTime.now();
 
     @Override

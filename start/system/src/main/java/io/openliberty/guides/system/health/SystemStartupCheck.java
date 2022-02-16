@@ -29,10 +29,9 @@ public class SystemStartupCheck implements HealthCheck {
         ManagementFactory.getOperatingSystemMXBean();
         double cpuUsed = bean.getSystemCpuLoad();
         String cpuUsage = String.valueOf(cpuUsed);
-        return HealthCheckResponse.named(SystemResource.class
-                                            .getSimpleName() + " Startup Check")
-                                            .withData("cpu used", cpuUsage)
-                                            .status(cpuUsed < 0.95).build();
+        return HealthCheckResponse.named(this.getClass().getSimpleName())
+                                  .withData("cpu used", cpuUsage)
+                                  .status(cpuUsed < 0.95)
+                                  .build();
     }
 }
-
