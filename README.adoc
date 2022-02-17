@@ -107,9 +107,6 @@ ifdef::cloud-hosted[]
 In this Skills Network environment, the Open Liberty Operator is already installed by the administrator. If you like to learn how to install the Open Liberty Operator, you can learn from the [Deploying microservices to OpenShift by using Kubernetes Operators](https://openliberty.io/guides/cloud-openshift-operator.html#installing-the-operators) guide or the Open Liberty Operator [document](https://github.com/OpenLiberty/open-liberty-operator/tree/main/deploy/releases/0.8.0#readme).
 endif::[]
 
-[role='command']
-include::{common-includes}/cloud-hosted/skills-network-kube-setup.adoc[]
-
 To check that the Open Liberty Operator has been installed successfully, run the following command to view all the supported API resources that are available through the Open Liberty Operator:
 [role='command']
 ```
@@ -172,10 +169,22 @@ ifdef::cloud-hosted[]
 Next, push your images to the container registry on IBM Cloud with the following commands:
 
 ```
-docker tag system:1.0-SNAPSHOT us.icr.io/$NAMESPACE_NAME/system:1.0-SNAPSHOT
-docker push us.icr.io/$NAMESPACE_NAME/system:1.0-SNAPSHOT
+docker tag system:1.0-SNAPSHOT us.icr.io/$SN_ICR_NAMESPACE/system:1.0-SNAPSHOT
+docker push us.icr.io/$SN_ICR_NAMESPACE/system:1.0-SNAPSHOT
 ```
-{: codeblock}
+
+Run the following command to check the docker images:
+```
+docker images
+```
+
+The output is similar to the following example:
+```
+REPOSITORY                          TAG                      IMAGE ID       CREATED         SIZE
+us.icr.io/sn-labs-yourname/system   1.0-SNAPSHOT             5c5890296d6e   2 minutes ago   1.23GB
+system                              1.0-SNAPSHOT             5c5890296d6e   2 minutes ago   1.23GB
+icr.io/appcafe/open-liberty         full-java11-openj9-ubi   e959985784c2   2 days ago      1.2GB
+```
 endif::[]
 
 Now you're ready to deploy the image.
@@ -216,9 +225,9 @@ endif::[]
 
 // Cloud-hosted guide instruction
 ifdef::cloud-hosted[]
-Run the following commands to update the **applicationImage** and deploy the **system** microservice with the previously explained configuration:
+Run the following commands to update the **applicationImage** with the **pullSecret** and deploy the **system** microservice with the previously explained configuration:
 ```
-sed -i 's=system:1.0-SNAPSHOT=us.icr.io/'"$NAMESPACE_NAME"'/system:1.0-SNAPSHOT\n  pullPolicy: Always=g' deploy.yaml
+sed -i 's=system:1.0-SNAPSHOT=us.icr.io/'"$SN_ICR_NAMESPACE"'/system:1.0-SNAPSHOT\n  pullPolicy: Always\n  pullSecret: icr=g' deploy.yaml
 kubectl apply -f deploy.yaml
 ```
 {: codeblock}
@@ -288,6 +297,12 @@ endif::[]
 
 When you're done trying out the microservice, press **CTRL+C** in the command line session where you ran the `kubectl port-forward` command to stop the port forwarding.
 
+Run the following command to remove the deployed `system` microservice:
+[role='command']
+```
+kubectl delete -f deploy.yaml
+```
+
 == Specifying other parameters
 
 You can visit the https://github.com/OpenLiberty/open-liberty-operator/blob/main/doc/user-guide-v1beta2.adoc#configuration[Open Liberty Operator user guide^] to find all of the supported optional parameters.
@@ -320,9 +335,9 @@ endif::[]
 
 // Cloud-hosted guide instruction
 ifdef::cloud-hosted[]
-Run the following commands to update the **applicationImage** and deploy the **system** microservice with the new configuration:
+Run the following commands to update the **applicationImage** with the **pullSecret** and redeploy the **system** microservice with the new configuration:
 ```
-sed -i 's=system:1.0-SNAPSHOT=us.icr.io/'"$NAMESPACE_NAME"'/system:1.0-SNAPSHOT\n  pullPolicy: IfNotPresent=g' deploy.yaml
+sed -i 's=system:1.0-SNAPSHOT=us.icr.io/'"$SN_ICR_NAMESPACE"'/system:1.0-SNAPSHOT\n  pullPolicy: Always\n  pullSecret: icr=g' deploy.yaml
 kubectl apply -f deploy.yaml
 ```
 {: codeblock}
