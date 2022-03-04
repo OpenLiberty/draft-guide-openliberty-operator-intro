@@ -20,6 +20,8 @@ spec:
   # tag::expose[]
   expose: true
   # end::expose[]
+  route:
+    pathType: ImplementationSpecific
   # tag::systemEnv[]
   env:
     - name: WLP_LOGGING_MESSAGE_FORMAT
