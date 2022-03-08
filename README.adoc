@@ -105,7 +105,7 @@ WATCH_NAMESPACE='""'
 ```
 --
 
-Next, run the following command to install cluster-level role-based access:
+Next, run the following commands to install cluster-level role-based access:
 
 [.tab_link.windows_link]
 `*WINDOWS*`
@@ -136,7 +136,7 @@ curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main
 ```
 --
 
-Finally, run the following command to install the Operator:
+Finally, run the following commands to install the Operator:
 
 [.tab_link.windows_link]
 `*WINDOWS*`
@@ -455,7 +455,9 @@ set OPERATOR_NAMESPACE=default
 set WATCH_NAMESPACE=\"\"
 
 kubectl delete -n %OPERATOR_NAMESPACE% -f .\openliberty-app-operator.yaml
+
 kubectl delete -f .\openliberty-app-rbac-watch-all.yaml
+
 kubectl delete -f https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.0/kubectl/openliberty-app-crd.yaml
 ```
 --
