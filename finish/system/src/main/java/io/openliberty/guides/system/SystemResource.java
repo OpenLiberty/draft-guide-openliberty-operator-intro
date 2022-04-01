@@ -13,13 +13,13 @@
 package io.openliberty.guides.system;
 
 // CDI
-import javax.enterprise.context.RequestScoped;
-import javax.ws.rs.GET;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.ws.rs.GET;
 // JAX-RS
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
 @RequestScoped
 @Path("/properties")
@@ -31,5 +31,5 @@ public class SystemResource {
     return Response.ok(System.getProperties())
       .header("X-Pod-Name", System.getenv("HOSTNAME"))
       .build();
-  } 
+  }
 }
