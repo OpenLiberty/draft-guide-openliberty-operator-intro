@@ -2,7 +2,6 @@
 set -euxo pipefail
 
 # Package the system/ app
-mvn -q -pl models install
 mvn -Dhttp.keepAlive=false \
     -Dmaven.wagon.http.pool=false \
     -Dmaven.wagon.httpconnectionManager.ttlSeconds=120 \
