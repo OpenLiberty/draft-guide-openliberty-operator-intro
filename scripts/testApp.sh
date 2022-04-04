@@ -8,7 +8,12 @@ mvn -Dhttp.keepAlive=false \
     -q clean package
 
 # Verifies that the system app is functional
-mvn -pl system verify
+mvn liberty:start
+curl "http://localhost:9080/health" | grep "UP"
+if [ $? -gt 0 ] ; then exit $?; fi
+curl "http://localhost:9080/system/properties" | grep "os.name"
+if [ $? -gt 0 ] ; then exit $?; fi
+mvn liberty:stop
 
 # Delete m2 cache after completion
 rm -rf ~/.m2
