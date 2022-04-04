@@ -1,6 +1,6 @@
 // tag::copyright[]
 /*******************************************************************************
- * Copyright (c) 2019, 2021 IBM Corporation and others.
+ * Copyright (c) 2019, 2022 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -15,7 +15,7 @@ package io.openliberty.guides.system.health;
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
 
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 import org.eclipse.microprofile.health.Liveness;
 import org.eclipse.microprofile.health.HealthCheck;
 import org.eclipse.microprofile.health.HealthCheckResponse;
@@ -31,8 +31,6 @@ public class SystemLivenessCheck implements HealthCheck {
         long memMax = memBean.getHeapMemoryUsage().getMax();
 
         return HealthCheckResponse.named(this.getClass().getSimpleName())
-                                  .withData("memory used", memUsed)
-                                  .withData("memory max", memMax)
                                   .status(memUsed < memMax * 0.9)
                                   .build();
     }

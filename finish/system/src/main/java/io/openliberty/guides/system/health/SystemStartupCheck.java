@@ -14,7 +14,7 @@ package io.openliberty.guides.system.health;
 
 import java.lang.management.ManagementFactory;
 import com.sun.management.OperatingSystemMXBean;
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 import org.eclipse.microprofile.health.Startup;
 import org.eclipse.microprofile.health.HealthCheck;
 import org.eclipse.microprofile.health.HealthCheckResponse;
@@ -30,7 +30,6 @@ public class SystemStartupCheck implements HealthCheck {
         double cpuUsed = bean.getSystemCpuLoad();
         String cpuUsage = String.valueOf(cpuUsed);
         return HealthCheckResponse.named(this.getClass().getSimpleName())
-                                  .withData("cpu used", cpuUsage)
                                   .status(cpuUsed < 0.95)
                                   .build();
     }
