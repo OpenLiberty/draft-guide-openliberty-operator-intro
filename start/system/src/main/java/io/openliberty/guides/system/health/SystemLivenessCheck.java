@@ -31,8 +31,6 @@ public class SystemLivenessCheck implements HealthCheck {
         long memMax = memBean.getHeapMemoryUsage().getMax();
 
         return HealthCheckResponse.named(this.getClass().getSimpleName())
-                                  .withData("memory used", memUsed)
-                                  .withData("memory max", memMax)
                                   .status(memUsed < memMax * 0.9)
                                   .build();
     }
