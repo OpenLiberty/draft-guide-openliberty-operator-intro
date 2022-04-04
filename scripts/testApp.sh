@@ -1,18 +1,18 @@
 #!/bin/bash
 set -euxo pipefail
 
-# Package the system/ app
+cd system
+
+# Build the system/ app
 mvn -Dhttp.keepAlive=false \
     -Dmaven.wagon.http.pool=false \
     -Dmaven.wagon.httpconnectionManager.ttlSeconds=120 \
-    -q clean package
+    -q clean package liberty:create liberty:install-feature liberty:deploy
 
 # Verifies that the system app is functional
 mvn liberty:start
-curl "http://localhost:9080/health" | grep "UP"
-if [ $? -gt 0 ] ; then exit $?; fi
-curl "http://localhost:9080/system/properties" | grep "os.name"
-if [ $? -gt 0 ] ; then exit $?; fi
+if curl "http://localhost:9080/health" | grep "UP" ; then exit $?; fi
+if curl "http://localhost:9080/system/properties" | grep "os.name" ; then exit $?; fi
 mvn liberty:stop
 
 # Delete m2 cache after completion
