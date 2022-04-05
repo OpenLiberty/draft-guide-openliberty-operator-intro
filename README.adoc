@@ -9,7 +9,7 @@
 :projectid: openliberty-operator-intro
 :page-layout: guide-multipane
 :page-duration: 30 minutes
-:page-releasedate: 2022-02-28
+:page-releasedate: 2022-04-05
 :page-description: Explore how to deploy a microservice to Kubernetes by using Open Liberty Operator.
 :page-tags: ['Kubernetes', 'Docker', 'Cloud'] 
 :page-permalink: /guides/{projectid}
