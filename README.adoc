@@ -212,7 +212,7 @@ endif::[]
 // Cloud hosted guide instruction
 ifdef::cloud-hosted[]
 ```bash
-cd /home/project/draft-guide-openliberty-operator-intro/start
+cd /home/project/guide-openliberty-operator-intro/start
 mvn clean package
 ```
 endif::[]
