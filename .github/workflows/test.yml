@@ -53,8 +53,6 @@ jobs:
     - run: unset _JAVA_OPTIONS
     - name: Run tests
       run: sudo ../scripts/testApp.sh
-    - name: Run SN tests
-      run: sudo ../scripts/testAppSN.sh
     - name: Post tests
       if: always()
       run: |
