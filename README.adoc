@@ -411,7 +411,9 @@ sed -i 's=system:1.0-SNAPSHOT=us.icr.io/'"$SN_ICR_NAMESPACE"'/system:1.0-SNAPSHO
 kubectl apply -f deploy.yaml
 ```
 Run the following command to check status of the pods:
-```bash
+
+[role='command']
+```
 kubectl describe pods | grep health
 ```
 endif::[]
