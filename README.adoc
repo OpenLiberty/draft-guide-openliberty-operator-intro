@@ -231,7 +231,7 @@ The `-t` flag in the `docker build` command allows the Docker image to be labele
 
 // Static guide instruction
 ifndef::cloud-hosted[]
-You need to push your image to a container registry prior to deploying it on any cloud environment. You can skip this step because you are working with a local Kubernetes environment.
+Normally, you must push your image to a container registry before you can deploy it on any cloud environment. You can skip this step because you are working with a local Kubernetes environment.
 endif::[]
 
 // Cloud hosted guide instruction
