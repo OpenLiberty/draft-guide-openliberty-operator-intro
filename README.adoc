@@ -500,7 +500,7 @@ curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main
   | sed -e "s/OPEN_LIBERTY_OPERATOR_NAMESPACE/${OPERATOR_NAMESPACE}/" \
   | kubectl delete -f -
 
-kubectl delete -f https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/1.2.0/kubectl/openliberty-app-crd.yaml
+kubectl delete --server-side -f https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/1.2.0/kubectl/openliberty-app-crd.yaml
 ```
 --
 endif::[]
