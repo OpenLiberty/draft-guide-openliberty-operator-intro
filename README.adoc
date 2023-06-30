@@ -249,8 +249,8 @@ docker images
 The output is similar to the following example:
 ```
 REPOSITORY                          TAG                             IMAGE ID       CREATED         SIZE
-us.icr.io/sn-labs-yourname/system   1.0-SNAPSHOT                    5c5890296d6e   2 minutes ago   699MB
-system                              1.0-SNAPSHOT                    5c5890296d6e   2 minutes ago   699MB
+us.icr.io/sn-labs-yourname/system   1.0-SNAPSHOT                    5c5890296d6e   2 minutes ago   723MB
+system                              1.0-SNAPSHOT                    5c5890296d6e   2 minutes ago   723MB
 icr.io/appcafe/open-liberty         kernel-slim-java11-openj9-ubi   e959985784c2   2 days ago      659MB
 ```
 endif::[]
