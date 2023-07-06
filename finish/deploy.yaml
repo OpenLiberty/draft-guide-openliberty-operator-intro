@@ -17,6 +17,7 @@ spec:
     # tag::servicePort[]
     port: 9443
     # end::servicePort[]
+    scheme: HTTPS
   # end::service[]
   # tag::expose[]
   expose: true
