@@ -11,13 +11,11 @@ spec:
   # tag::sysImage[]
   applicationImage: system:1.0-SNAPSHOT
   # end::sysImage[]
-  pullPolicy: Always
   # tag::service[]
   service:
     # tag::servicePort[]
     port: 9443
     # end::servicePort[]
-    scheme: HTTPS
   # end::service[]
   # tag::expose[]
   expose: true
@@ -38,8 +36,8 @@ spec:
       failureThreshold: 12
       httpGet:
         path: /health/started
-        port: 9080
-        scheme: HTTP
+        port: 9443
+        scheme: HTTPS
       initialDelaySeconds: 30
       periodSeconds: 2
       timeoutSeconds: 10
@@ -49,8 +47,8 @@ spec:
       failureThreshold: 12
       httpGet:
         path: /health/live
-        port: 9080
-        scheme: HTTP
+        port: 9443
+        scheme: HTTPS
       initialDelaySeconds: 30
       periodSeconds: 2
       timeoutSeconds: 10
@@ -60,8 +58,8 @@ spec:
       failureThreshold: 12
       httpGet:
         path: /health/ready
-        port: 9080
-        scheme: HTTP
+        port: 9443
+        scheme: HTTPS
       initialDelaySeconds: 30
       periodSeconds: 2
       timeoutSeconds: 10
