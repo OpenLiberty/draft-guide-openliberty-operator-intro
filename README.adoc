@@ -44,8 +44,11 @@ You will deploy the `system` microservice by using the Open Liberty Operator. Th
 
 // Static guide instruction
 ifndef::cloud-hosted[]
-[role='command']
-include::{common-includes}/kube-prereq.adoc[]
+== Additional prerequisites
+
+Before you begin, you need a Linux virtual machine to run this guide. Your Linux need a containerization software for building containers. You will use `Docker` in this guide. For Docker installation instructions, refer to the official https://docs.docker.com/install/[Docker documentation^].
+
+You will use `Minikube` as a single-node {kube} cluster that runs locally in your Linux. Make sure you have `kubectl` installed. If you need to install `kubectl`, see the https://kubernetes.io/docs/tasks/tools/install-kubectl/#install-kubectl-on-linux[kubectl installation instructions^]. For Minikube installation instructions, see the https://github.com/kubernetes/minikube#installation[Minikube documentation^].
 endif::[]
 
 // =================================================================================================
@@ -59,11 +62,40 @@ include::{common-includes}/gitclone.adoc[]
 // =================================================================================================
 // Static guide instruction
 ifndef::cloud-hosted[]
+== Starting and preparing your cluster for deployment
+
+Start your {kube} cluster.
+
+Run the following command from a command-line session:
+
+[role=command]
+```
+minikube start
+```
+
+If you run Minikube by root user, you can add `--force` option to the above command.
+
+Next, validate that you have a healthy {kube} environment by running the following command from the active command-line session.
 [role='command']
-include::{common-includes}/kube-start.adoc[]
+```
+kubectl get nodes
+```
+
+This command should return a `Ready` status for the `minikube` node.
+
+[role='no_copy']
+```
+NAME       STATUS   ROLES           AGE     VERSION
+minikube   Ready    control-plane   3h48m   v1.26.1
+```
+
+Run the following command to configure the Docker CLI to use Minikube's Docker daemon. After you run this command, you will be able to interact with Minikube's Docker daemon and build new images directly to it from your host machine:
+
+```
+eval $(minikube docker-env)
+```
 endif::[]
 
-// no "try what you'll build" section in this guide because it would be too long due to all setup the user will have to do.
 
 == Installing the Operator
 
