@@ -73,7 +73,7 @@ Run the following command from a command-line session:
 minikube start
 ```
 
-If you run Minikube by root user, you can add `--force` option to the above command.
+If you run Minikube by root user, you can append the `--force` option to the above command.
 
 Next, validate that you have a healthy {kube} environment by running the following command from the active command-line session.
 [role='command']
@@ -101,9 +101,16 @@ endif::[]
 
 // Static guide instruction
 ifndef::cloud-hosted[]
-Before you can deploy your microservice, you must install the Open Liberty Operator. You should read the official installation document on the link:https://github.com/OpenLiberty/open-liberty-operator/tree/main/deploy/releases/1.2.0#readme[GitHub repository].
+Before you can deploy your microservice, you must install the https://cert-manager.io[cert-manager^] and the Open Liberty Operator. You should read the official installation document on the link:https://github.com/OpenLiberty/open-liberty-operator/tree/main/deploy/releases/1.2.0#readme[GitHub repository].
 
-First, install Custom Resource Definitions (CRDs) for the Open Liberty Operator by running the following command:
+First, install the cert-manager to your Kubernetes cluster by running the following command:
+[role='command']
+```
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.12.0/cert-manager.yaml
+```
+
+
+Next, install Custom Resource Definitions (CRDs) for the Open Liberty Operator by running the following command:
 [role='command']
 ```
 kubectl apply --server-side -f https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/1.2.0/kubectl/openliberty-app-crd.yaml
@@ -112,92 +119,29 @@ Custom Resources extend the Kubernetes API and enhance its functionality.
 
 Set environment variables for namespaces for the Operator by running the following commands:
 
-[.tab_link.windows_link]
-`*WINDOWS*`
-[.tab_link.mac_link]
-`*MAC*`
-[.tab_link.linux_link]
-`*LINUX*`
-
-[.tab_content.windows_section]
---
-[role='command']
-```
-set OPERATOR_NAMESPACE=default
-set WATCH_NAMESPACE=\"\"
-```
---
-
-[.tab_content.mac_section.linux_section]
---
 [role='command']
 ```
 OPERATOR_NAMESPACE=default
 WATCH_NAMESPACE='""'
 ```
---
 
 Next, run the following commands to install cluster-level role-based access:
 
-[.tab_link.windows_link]
-`*WINDOWS*`
-[.tab_link.mac_link]
-`*MAC*`
-[.tab_link.linux_link]
-`*LINUX*`
-
-[.tab_content.windows_section]
---
-[role='command']
-```
-curl https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/1.2.0/kubectl/openliberty-app-rbac-watch-all.yaml -o openliberty-app-rbac-watch-all.yaml
-
-powershell -Command "(gc .\openliberty-app-rbac-watch-all.yaml) -replace 'OPEN_LIBERTY_OPERATOR_NAMESPACE', '%OPERATOR_NAMESPACE%' | Out-File -encoding ASCII .\openliberty-app-rbac-watch-all.yaml"
-
-kubectl apply -f .\openliberty-app-rbac-watch-all.yaml
-```
---
-
-[.tab_content.mac_section.linux_section]
---
 [role='command']
 ```
 curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/1.2.0/kubectl/openliberty-app-rbac-watch-all.yaml \
   | sed -e "s/OPEN_LIBERTY_OPERATOR_NAMESPACE/${OPERATOR_NAMESPACE}/" \
   | kubectl apply -f -
 ```
---
 
 Finally, run the following commands to install the Operator:
 
-[.tab_link.windows_link]
-`*WINDOWS*`
-[.tab_link.mac_link]
-`*MAC*`
-[.tab_link.linux_link]
-`*LINUX*`
-
-[.tab_content.windows_section]
---
-[role='command']
-```
-curl https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/1.2.0/kubectl/openliberty-app-operator.yaml -o openliberty-app-operator.yaml
-
-powershell -Command "(gc .\openliberty-app-operator.yaml) -replace 'OPEN_LIBERTY_WATCH_NAMESPACE', '%WATCH_NAMESPACE%' | Out-File -encoding ASCII .\openliberty-app-operator.yaml"
-
-kubectl apply -n %OPERATOR_NAMESPACE% -f .\openliberty-app-operator.yaml
-```
---
-
-[.tab_content.mac_section.linux_section]
---
 [role='command']
 ```
 curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/1.2.0/kubectl/openliberty-app-operator.yaml \
   | sed -e "s/OPEN_LIBERTY_WATCH_NAMESPACE/${WATCH_NAMESPACE}/" \
   | kubectl apply -n ${OPERATOR_NAMESPACE} -f -
 ```
---
 endif::[]
 
 // Cloud hosted guide instruction
