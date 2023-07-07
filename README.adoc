@@ -46,7 +46,7 @@ You will deploy the `system` microservice by using the Open Liberty Operator. Th
 ifndef::cloud-hosted[]
 == Additional prerequisites
 
-Before you begin, you need a Linux virtual machine to run this guide. Your Linux need a containerization software for building containers. You will use `Docker` in this guide. For Docker installation instructions, refer to the official https://docs.docker.com/install/[Docker documentation^].
+Before you begin, you need a Linux machine to run this guide. Your Linux need a containerization software for building containers. You will use `Docker` in this guide. For Docker installation instructions, refer to the official https://docs.docker.com/install/[Docker documentation^].
 
 You will use `Minikube` as a single-node {kube} cluster that runs locally in your Linux. Make sure you have `kubectl` installed. If you need to install `kubectl`, see the https://kubernetes.io/docs/tasks/tools/install-kubectl/#install-kubectl-on-linux[kubectl installation instructions^]. For Minikube installation instructions, see the https://github.com/kubernetes/minikube#installation[Minikube documentation^].
 endif::[]
@@ -321,12 +321,12 @@ To access the exposed `system` microservice, the service must be port-forwarded.
 
 [role='command']
 ```
-kubectl port-forward svc/system 9080
+kubectl port-forward svc/system 9443
 ```
 
 // Static guide instruction
 ifndef::cloud-hosted[]
-Visit the microservice at http://localhost:9080/system/properties.
+Visit the microservice at https://localhost:9443/system/properties.
 endif::[]
 
 // Cloud-hosted guide instruction
@@ -408,12 +408,12 @@ Run the following command to set up port forwarding to access the `system` servi
 
 [role='command']
 ```
-kubectl port-forward svc/system 9080
+kubectl port-forward svc/system 9443
 ```
 
 // Static guide instruction
 ifndef::cloud-hosted[]
-Visit the microservice at http://localhost:9080/system/properties.
+Visit the microservice at https://localhost:9443/system/properties.
 endif::[]
 
 // Cloud-hosted guide instruction
@@ -439,30 +439,6 @@ kubectl delete -f deploy.yaml
 
 To uninstall the Open Liberty Operator, run the following commands:
 
-[.tab_link.windows_link]
-`*WINDOWS*`
-[.tab_link.mac_link]
-`*MAC*`
-[.tab_link.linux_link]
-`*LINUX*`
-
-[.tab_content.windows_section]
---
-[role='command']
-```
-set OPERATOR_NAMESPACE=default
-set WATCH_NAMESPACE=\"\"
-
-kubectl delete -n %OPERATOR_NAMESPACE% -f .\openliberty-app-operator.yaml
-
-kubectl delete -f .\openliberty-app-rbac-watch-all.yaml
-
-kubectl delete -f https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/1.2.0/kubectl/openliberty-app-crd.yaml
-```
---
-
-[.tab_content.mac_section.linux_section]
---
 [role='command']
 ```
 OPERATOR_NAMESPACE=default
@@ -478,7 +454,6 @@ curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main
 
 kubectl delete -f https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/1.2.0/kubectl/openliberty-app-crd.yaml
 ```
---
 endif::[]
 
 // Cloud-hosted guide instruction
