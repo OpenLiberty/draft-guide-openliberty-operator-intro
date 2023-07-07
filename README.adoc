@@ -437,7 +437,7 @@ When you no longer need your deployed microservice, you can delete all resources
 kubectl delete -f deploy.yaml
 ```
 
-To uninstall the Open Liberty Operator, run the following commands:
+To uninstall the Open Liberty Operator and the cert-manager, run the following commands:
 
 [role='command']
 ```
