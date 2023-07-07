@@ -453,6 +453,8 @@ curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main
   | kubectl delete -f -
 
 kubectl delete -f https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/1.2.0/kubectl/openliberty-app-crd.yaml
+
+kubectl delete -f https://github.com/cert-manager/cert-manager/releases/download/v1.12.0/cert-manager.yaml
 ```
 endif::[]
 
