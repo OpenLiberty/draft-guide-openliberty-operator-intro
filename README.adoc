@@ -46,7 +46,7 @@ You will deploy the `system` microservice by using the Open Liberty Operator. Th
 ifndef::cloud-hosted[]
 == Additional prerequisites
 
-Before you begin, you need a Linux machine to run this guide. Your Linux need a containerization software for building containers. You will use `Docker` in this guide. For Docker installation instructions, refer to the official https://docs.docker.com/install/[Docker documentation^].
+You need a Linux machine to run this guide. Before you begin, your Linux need a containerization software for building containers. You will use `Docker` in this guide. For Docker installation instructions, refer to the official https://docs.docker.com/install/[Docker documentation^].
 
 You will use `Minikube` as a single-node {kube} cluster that runs locally in your Linux. Make sure you have `kubectl` installed. If you need to install `kubectl`, see the https://kubernetes.io/docs/tasks/tools/install-kubectl/#install-kubectl-on-linux[kubectl installation instructions^]. For Minikube installation instructions, see the https://github.com/kubernetes/minikube#installation[Minikube documentation^].
 endif::[]
