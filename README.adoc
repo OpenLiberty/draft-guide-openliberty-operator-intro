@@ -81,7 +81,7 @@ Next, validate that you have a healthy {kube} environment by running the followi
 kubectl get nodes
 ```
 
-This command should return a `Ready` status for the `minikube` node.
+If your environment is healthy, this command returns a `Ready` status for the `minikube` node.
 
 [role='no_copy']
 ```
