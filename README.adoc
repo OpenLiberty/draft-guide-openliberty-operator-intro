@@ -73,7 +73,7 @@ Run the following command from a command-line session:
 minikube start
 ```
 
-If you run Minikube by root user, you can append the `--force` option to the above command.
+If you run Minikube as a root user, you can append the `--force` option to the previous command.
 
 Next, validate that you have a healthy {kube} environment by running the following command from the active command-line session.
 [role='command']
