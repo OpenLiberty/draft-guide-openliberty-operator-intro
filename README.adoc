@@ -101,7 +101,7 @@ endif::[]
 
 // Static guide instruction
 ifndef::cloud-hosted[]
-Before you can deploy your microservice, you must install the https://cert-manager.io[cert-manager^] and the Open Liberty Operator. You should read the official installation document on the link:https://github.com/OpenLiberty/open-liberty-operator/tree/main/deploy/releases/1.2.0#readme[GitHub repository].
+Before you can deploy your microservice, you must install the https://cert-manager.io[cert-manager^] and the Open Liberty Operator. For more information, see the link:https://github.com/OpenLiberty/open-liberty-operator/tree/main/deploy/releases/1.2.0#readme[installation instructions].
 
 First, install the cert-manager to your Kubernetes cluster by running the following command:
 [role='command']
