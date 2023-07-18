@@ -44,8 +44,11 @@ You will deploy the `system` microservice by using the Open Liberty Operator. Th
 
 // Static guide instruction
 ifndef::cloud-hosted[]
-[role='command']
-include::{common-includes}/kube-prereq.adoc[]
+== Additional prerequisites
+
+You must run this guide in a Linux environment. You will also use Docker. For Docker installation instructions, see the official https://docs.docker.com/install/[Docker documentation^].
+
+You will use `Minikube` as a single-node {kube} cluster that runs locally in your Linux environment. Make sure you have `kubectl` installed. If you need to install `kubectl`, see the https://kubernetes.io/docs/tasks/tools/install-kubectl/#install-kubectl-on-linux[kubectl installation instructions^]. For Minikube installation instructions, see the https://github.com/kubernetes/minikube#installation[Minikube documentation^].
 endif::[]
 
 // =================================================================================================
@@ -59,118 +62,91 @@ include::{common-includes}/gitclone.adoc[]
 // =================================================================================================
 // Static guide instruction
 ifndef::cloud-hosted[]
+== Starting and preparing your cluster for deployment
+
+Start your {kube} cluster.
+
+Run the following command from a command-line session:
+
+[role=command]
+```
+minikube start
+```
+
+If you run Minikube as a root user, you can append the `--force` option to the previous command.
+
+Next, validate that you have a healthy {kube} environment by running the following command from the active command-line session.
 [role='command']
-include::{common-includes}/kube-start.adoc[]
+```
+kubectl get nodes
+```
+
+If your environment is healthy, this command returns a `Ready` status for the `minikube` node.
+
+[role='no_copy']
+```
+NAME       STATUS   ROLES           AGE     VERSION
+minikube   Ready    control-plane   3h48m   v1.26.1
+```
+
+Run the following command to configure the Docker CLI to use Minikube's Docker daemon. After you run this command, you can interact with Minikube's Docker daemon and build new images directly to it from your host machine:
+
+```
+eval $(minikube docker-env)
+```
 endif::[]
 
-// no "try what you'll build" section in this guide because it would be too long due to all setup the user will have to do.
 
 == Installing the Operator
 
 // Static guide instruction
 ifndef::cloud-hosted[]
-Before you can deploy your microservice, you must install the Open Liberty Operator. You should read the official installation document on the link:https://github.com/OpenLiberty/open-liberty-operator/tree/main/deploy/releases/0.8.2#readme[GitHub repository].
+Before you can deploy your microservice, you must install the https://cert-manager.io[cert-manager^] and the Open Liberty Operator. For more information, see the link:https://github.com/OpenLiberty/open-liberty-operator/tree/main/deploy/releases/1.2.0#readme[installation instructions].
 
-First, install Custom Resource Definitions (CRDs) for the Open Liberty Operator by running the following command:
+First, install the cert-manager to your Kubernetes cluster by running the following command:
 [role='command']
 ```
-kubectl apply -f https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.2/kubectl/openliberty-app-crd.yaml
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.12.0/cert-manager.yaml
+```
+
+
+Next, install Custom Resource Definitions (CRDs) for the Open Liberty Operator by running the following command:
+[role='command']
+```
+kubectl apply --server-side -f https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/1.2.0/kubectl/openliberty-app-crd.yaml
 ```
 Custom Resources extend the Kubernetes API and enhance its functionality.
 
 Set environment variables for namespaces for the Operator by running the following commands:
 
-[.tab_link.windows_link]
-`*WINDOWS*`
-[.tab_link.mac_link]
-`*MAC*`
-[.tab_link.linux_link]
-`*LINUX*`
-
-[.tab_content.windows_section]
---
-[role='command']
-```
-set OPERATOR_NAMESPACE=default
-set WATCH_NAMESPACE=\"\"
-```
---
-
-[.tab_content.mac_section.linux_section]
---
 [role='command']
 ```
 OPERATOR_NAMESPACE=default
 WATCH_NAMESPACE='""'
 ```
---
 
 Next, run the following commands to install cluster-level role-based access:
 
-[.tab_link.windows_link]
-`*WINDOWS*`
-[.tab_link.mac_link]
-`*MAC*`
-[.tab_link.linux_link]
-`*LINUX*`
-
-[.tab_content.windows_section]
---
 [role='command']
 ```
-curl https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.2/kubectl/openliberty-app-rbac-watch-all.yaml -o openliberty-app-rbac-watch-all.yaml
-
-powershell -Command "(gc .\openliberty-app-rbac-watch-all.yaml) -replace 'OPEN_LIBERTY_OPERATOR_NAMESPACE', '%OPERATOR_NAMESPACE%' | Out-File -encoding ASCII .\openliberty-app-rbac-watch-all.yaml"
-
-kubectl apply -f .\openliberty-app-rbac-watch-all.yaml
-```
---
-
-[.tab_content.mac_section.linux_section]
---
-[role='command']
-```
-curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.2/kubectl/openliberty-app-rbac-watch-all.yaml \
+curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/1.2.0/kubectl/openliberty-app-rbac-watch-all.yaml \
   | sed -e "s/OPEN_LIBERTY_OPERATOR_NAMESPACE/${OPERATOR_NAMESPACE}/" \
   | kubectl apply -f -
 ```
---
 
 Finally, run the following commands to install the Operator:
 
-[.tab_link.windows_link]
-`*WINDOWS*`
-[.tab_link.mac_link]
-`*MAC*`
-[.tab_link.linux_link]
-`*LINUX*`
-
-[.tab_content.windows_section]
---
 [role='command']
 ```
-curl https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.2/kubectl/openliberty-app-operator.yaml -o openliberty-app-operator.yaml
-
-powershell -Command "(gc .\openliberty-app-operator.yaml) -replace 'OPEN_LIBERTY_WATCH_NAMESPACE', '%WATCH_NAMESPACE%' | Out-File -encoding ASCII .\openliberty-app-operator.yaml"
-
-kubectl apply -n %OPERATOR_NAMESPACE% -f .\openliberty-app-operator.yaml
-```
---
-
-[.tab_content.mac_section.linux_section]
---
-[role='command']
-```
-curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.2/kubectl/openliberty-app-operator.yaml \
+curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/1.2.0/kubectl/openliberty-app-operator.yaml \
   | sed -e "s/OPEN_LIBERTY_WATCH_NAMESPACE/${WATCH_NAMESPACE}/" \
   | kubectl apply -n ${OPERATOR_NAMESPACE} -f -
 ```
---
 endif::[]
 
 // Cloud hosted guide instruction
 ifdef::cloud-hosted[]
-In this Skills Network environment, the Open Liberty Operator is already installed by the administrator. If you like to learn how to install the Open Liberty Operator, you can learn from the [Deploying microservices to OpenShift by using Kubernetes Operators](https://openliberty.io/guides/cloud-openshift-operator.html#installing-the-operators) guide or the Open Liberty Operator [document](https://github.com/OpenLiberty/open-liberty-operator/tree/main/deploy/releases/0.8.2#readme).
+The Open Liberty Operator is already installed in this Skills Network environment. To learn how to install the Open Liberty Operator yourself, see the [Deploying microservices to OpenShift by using Kubernetes Operators](https://openliberty.io/guides/cloud-openshift-operator.html#installing-the-operators) guide or the [Open Liberty Operator documentation](https://github.com/OpenLiberty/open-liberty-operator/tree/main/deploy/releases/1.2.0#readme).
 endif::[]
 
 To check that the Open Liberty Operator has been installed successfully, run the following command to view all the supported API resources that are available through the Open Liberty Operator:
@@ -219,9 +195,7 @@ endif::[]
 
 === Building the image
 
-include::{common-includes}/ol-icr-full-docker-pull.adoc[]
-
-Next, run the `docker build` command to build the container image for your application:
+Run the `docker build` command to build the container image for your application:
 [role='command']
 ```
 docker build -t system:1.0-SNAPSHOT system/.
@@ -250,10 +224,10 @@ docker images
 
 The output is similar to the following example:
 ```
-REPOSITORY                          TAG                      IMAGE ID       CREATED         SIZE
-us.icr.io/sn-labs-yourname/system   1.0-SNAPSHOT             5c5890296d6e   2 minutes ago   1.23GB
-system                              1.0-SNAPSHOT             5c5890296d6e   2 minutes ago   1.23GB
-icr.io/appcafe/open-liberty         full-java11-openj9-ubi   e959985784c2   2 days ago      1.2GB
+REPOSITORY                          TAG                             IMAGE ID       CREATED         SIZE
+us.icr.io/sn-labs-yourname/system   1.0-SNAPSHOT                    5c5890296d6e   2 minutes ago   723MB
+system                              1.0-SNAPSHOT                    5c5890296d6e   2 minutes ago   723MB
+icr.io/appcafe/open-liberty         kernel-slim-java11-openj9-ubi   e959985784c2   2 days ago      659MB
 ```
 endif::[]
 
@@ -297,6 +271,8 @@ endif::[]
 ifdef::cloud-hosted[]
 Run the following commands to update the **applicationImage** with the **pullSecret** and deploy the **system** microservice with the previously explained configuration:
 ```bash
+sed -i 's=v1=v1beta2=g' deploy.yaml
+sed -i 's=9443=9080=g' deploy.yaml
 sed -i 's=system:1.0-SNAPSHOT=us.icr.io/'"$SN_ICR_NAMESPACE"'/system:1.0-SNAPSHOT\n  pullPolicy: Always\n  pullSecret: icr=g' deploy.yaml
 kubectl apply -f deploy.yaml
 ```
@@ -345,18 +321,22 @@ Kind:         OpenLibertyApplication
 
 To access the exposed `system` microservice, the service must be port-forwarded. Run the following command to set up port forwarding to access the `system` service:
 
-[role='command']
-```
-kubectl port-forward svc/system 9080
-```
-
 // Static guide instruction
 ifndef::cloud-hosted[]
-Visit the microservice at http://localhost:9080/system/properties.
+[role='command']
+```
+kubectl port-forward svc/system 9443
+```
+
+Visit the microservice at https://localhost:9443/system/properties.
 endif::[]
 
 // Cloud-hosted guide instruction
 ifdef::cloud-hosted[]
+```bash
+kubectl port-forward svc/system 9080
+```
+
 Open another command-line session by selecting **Terminal** > **New Terminal** from the menu of the IDE. Access the microservice by running the following command:
 ```bash
 curl -s http://localhost:9080/system/properties | jq
@@ -412,6 +392,8 @@ endif::[]
 ifdef::cloud-hosted[]
 Run the following commands to update the **applicationImage** with the **pullSecret** and redeploy the **system** microservice with the new configuration:
 ```bash
+sed -i 's=v1=v1beta2=g' deploy.yaml
+sed -i 's=9443=9080=g' deploy.yaml
 sed -i 's=system:1.0-SNAPSHOT=us.icr.io/'"$SN_ICR_NAMESPACE"'/system:1.0-SNAPSHOT\n  pullPolicy: Always\n  pullSecret: icr=g' deploy.yaml
 kubectl apply -f deploy.yaml
 ```
@@ -432,18 +414,22 @@ Startup:    http-get http://:9080/health/started delay=30s timeout=10s period=2s
 
 Run the following command to set up port forwarding to access the `system` service:
 
-[role='command']
-```
-kubectl port-forward svc/system 9080
-```
-
 // Static guide instruction
 ifndef::cloud-hosted[]
-Visit the microservice at http://localhost:9080/system/properties.
+[role='command']
+```
+kubectl port-forward svc/system 9443
+```
+
+Visit the microservice at https://localhost:9443/system/properties.
 endif::[]
 
 // Cloud-hosted guide instruction
 ifdef::cloud-hosted[]
+```bash
+kubectl port-forward svc/system 9080
+```
+
 Access the microservice by running the following command:
 ```bash
 curl -s http://localhost:9080/system/properties | jq
@@ -463,48 +449,25 @@ When you no longer need your deployed microservice, you can delete all resources
 kubectl delete -f deploy.yaml
 ```
 
-To uninstall the Open Liberty Operator, run the following commands:
+To uninstall the Open Liberty Operator and the cert-manager, run the following commands:
 
-[.tab_link.windows_link]
-`*WINDOWS*`
-[.tab_link.mac_link]
-`*MAC*`
-[.tab_link.linux_link]
-`*LINUX*`
-
-[.tab_content.windows_section]
---
-[role='command']
-```
-set OPERATOR_NAMESPACE=default
-set WATCH_NAMESPACE=\"\"
-
-kubectl delete -n %OPERATOR_NAMESPACE% -f .\openliberty-app-operator.yaml
-
-kubectl delete -f .\openliberty-app-rbac-watch-all.yaml
-
-kubectl delete -f https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.2/kubectl/openliberty-app-crd.yaml
-```
---
-
-[.tab_content.mac_section.linux_section]
---
 [role='command']
 ```
 OPERATOR_NAMESPACE=default
 WATCH_NAMESPACE='""'
 
-curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.2/kubectl/openliberty-app-operator.yaml \
+curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/1.2.0/kubectl/openliberty-app-operator.yaml \
   | sed -e "s/OPEN_LIBERTY_WATCH_NAMESPACE/${WATCH_NAMESPACE}/" \
   | kubectl delete -n ${OPERATOR_NAMESPACE} -f -
 
-curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.2/kubectl/openliberty-app-rbac-watch-all.yaml \
+curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/1.2.0/kubectl/openliberty-app-rbac-watch-all.yaml \
   | sed -e "s/OPEN_LIBERTY_OPERATOR_NAMESPACE/${OPERATOR_NAMESPACE}/" \
   | kubectl delete -f -
 
-kubectl delete -f https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.2/kubectl/openliberty-app-crd.yaml
+kubectl delete -f https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/1.2.0/kubectl/openliberty-app-crd.yaml
+
+kubectl delete -f https://github.com/cert-manager/cert-manager/releases/download/v1.12.0/cert-manager.yaml
 ```
---
 endif::[]
 
 // Cloud-hosted guide instruction
