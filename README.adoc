@@ -271,8 +271,6 @@ endif::[]
 ifdef::cloud-hosted[]
 Run the following commands to update the **applicationImage** with the **pullSecret** and deploy the **system** microservice with the previously explained configuration:
 ```bash
-sed -i 's=v1=v1beta2=g' deploy.yaml
-sed -i 's=9443=9080=g' deploy.yaml
 sed -i 's=system:1.0-SNAPSHOT=us.icr.io/'"$SN_ICR_NAMESPACE"'/system:1.0-SNAPSHOT\n  pullPolicy: Always\n  pullSecret: icr=g' deploy.yaml
 kubectl apply -f deploy.yaml
 ```
@@ -334,12 +332,12 @@ endif::[]
 // Cloud-hosted guide instruction
 ifdef::cloud-hosted[]
 ```bash
-kubectl port-forward svc/system 9080
+kubectl port-forward svc/system 9443
 ```
 
 Open another command-line session by selecting **Terminal** > **New Terminal** from the menu of the IDE. Access the microservice by running the following command:
 ```bash
-curl -s http://localhost:9080/system/properties | jq
+curl -k -s https://localhost:9443/system/properties | jq
 ```
 endif::[]
 
@@ -392,8 +390,6 @@ endif::[]
 ifdef::cloud-hosted[]
 Run the following commands to update the **applicationImage** with the **pullSecret** and redeploy the **system** microservice with the new configuration:
 ```bash
-sed -i 's=v1=v1beta2=g' deploy.yaml
-sed -i 's=9443=9080=g' deploy.yaml
 sed -i 's=system:1.0-SNAPSHOT=us.icr.io/'"$SN_ICR_NAMESPACE"'/system:1.0-SNAPSHOT\n  pullPolicy: Always\n  pullSecret: icr=g' deploy.yaml
 kubectl apply -f deploy.yaml
 ```
@@ -427,12 +423,12 @@ endif::[]
 // Cloud-hosted guide instruction
 ifdef::cloud-hosted[]
 ```bash
-kubectl port-forward svc/system 9080
+kubectl port-forward svc/system 9443
 ```
 
 Access the microservice by running the following command:
 ```bash
-curl -s http://localhost:9080/system/properties | jq
+curl -k -s https://localhost:9443/system/properties | jq
 ```
 endif::[]
 
