@@ -14,7 +14,7 @@ spec:
   # tag::service[]
   service:
     # tag::servicePort[]
-    port: 9453
+    port: 9443
     # end::servicePort[]
   # end::service[]
   # tag::expose[]
@@ -36,7 +36,7 @@ spec:
       failureThreshold: 12
       httpGet:
         path: /health/started
-        port: 9453
+        port: 9443
         scheme: HTTPS
       initialDelaySeconds: 30
       periodSeconds: 2
@@ -47,7 +47,7 @@ spec:
       failureThreshold: 12
       httpGet:
         path: /health/live
-        port: 9453
+        port: 9443
         scheme: HTTPS
       initialDelaySeconds: 30
       periodSeconds: 2
@@ -58,7 +58,7 @@ spec:
       failureThreshold: 12
       httpGet:
         path: /health/ready
-        port: 9453
+        port: 9443
         scheme: HTTPS
       initialDelaySeconds: 30
       periodSeconds: 2
